@@ -26,29 +26,33 @@ class Solution {
         ArrayList<Integer> [] g=new ArrayList[numCourses];
         for(int i=0;i<g.length;i++)
             g[i]=new ArrayList<>();
-        
+        //Make directed graph
         for(int[] temp:prerequisites){
             g[temp[1]].add(temp[0]);
         }
-        boolean[] vis=new boolean[numCourses];
+        boolean[] vis=new boolean[numCourses]; //this will keep track if a node is visited already or not.
         for(int i=0;i<numCourses;i++){
             if(!noCycle(g,i,vis)){
-                return false;
+                return false; //if the graph encounters a cycle return false
             }
         }
-        return true;
+        return true; // if there was no cycle return true
     }
+    /*This function will check if there is a cycle formed in graph while traversing the graph starting with current node
+      We will mark the curr node visited while entering the node and we will visit each of its connected node and see if the current
+      node is encountered again and if it does we will return false else return true
+    */
     public static boolean noCycle(ArrayList<Integer>[] g,int current,boolean[] vis){
-        if(vis[current]){
+        if(vis[current]){ //if the visited node is already visited then cycle is detected return false
             return false;
         }
         vis[current]=true;
-        for(int v:g[current]){
+        for(int v:g[current]){ //visit all the connected nodes of current node
             if(!noCycle(g,v,vis)){
                 return false;
             }
         }
-        vis[current]=false;
+        vis[current]=false; //no cycle is detected in path of current node so mark the current node unvisited and return true
         return true;
     }
 }
